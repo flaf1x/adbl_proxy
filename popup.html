@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADBL Proxy Manager</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <div class="title-section">
+          <h1 class="title">Proxy Manager</h1>
+          <div class="status-badge" id="statusBadge">
+            <span class="status-dot"></span>
+            <span id="statusText">Отключен</span>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="proxyToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="tab-content">
+      <div class="tab-panel active" id="home-panel">
+        <!-- IP адрес -->
+        <div class="ip-card">
+          <div class="ip-header">
+            <div class="ip-label">
+              <span class="material-symbols-outlined">public</span>
+              <span>Ваш IP адрес</span>
+            </div>
+            <button class="btn-icon-small" id="copyIpBtn" title="Копировать IP">
+              <span class="material-symbols-outlined">content_copy</span>
+            </button>
+          </div>
+          <div class="ip-value" id="ipAddress">Загрузка...</div>
+          <div class="ip-location" id="ipLocation"></div>
+        </div>
+
+        <div class="quick-add-card" id="quickAddCard">
+          <div class="quick-add-header">
+            <span class="material-symbols-outlined">add_circle</span>
+            <span>Быстрое добавление</span>
+          </div>
+          <div class="quick-add-content">
+            <div class="current-site" id="currentSite">example.com</div>
+            <button class="btn-add" id="addToWhitelistBtn">
+              <span class="material-symbols-outlined">playlist_add</span>
+              <span>Добавить в вайтлист</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="home-configs-section">
+          <div class="proxy-header">
+            <h3 class="panel-title">Активный конфиг</h3>
+          </div>
+          <div class="proxy-configs" id="proxyConfigs">
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="whitelist-panel">
+        <div class="whitelist-header">
+          <h3 class="panel-title">Сайты без прокси</h3>
+          <button class="btn-icon" id="addWhitelistManual" title="Добавить вручную">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+        </div>
+        <div class="whitelist-list" id="whitelistList">
+          <div class="empty-state">
+            <span class="material-symbols-outlined">inbox</span>
+            <p>Список пуст</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="configs-panel">
+        <div class="configs-header">
+          <h3 class="panel-title">Управление конфигами</h3>
+          <button class="btn-icon" id="addConfigBtn" title="Добавить конфиг">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+        </div>
+        <div class="configs-list" id="configsList"></div>
+      </div>
+
+      <div class="tab-panel" id="settings-panel">
+        <div class="settings-header">
+          <h3 class="panel-title">Настройки расширения</h3>
+        </div>
+        
+        <div class="settings-section">
+          <div class="setting-item theme-selector">
+            <div class="setting-info">
+              <div class="setting-title">
+                <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle; margin-right: 4px;">palette</span>
+                <span data-i18n="themeTitle">Тема оформления</span>
+              </div>
+              <div class="setting-description" data-i18n="themeDescription">Выберите цветовую схему интерфейса</div>
+            </div>
+            <div class="theme-options">
+              <label class="theme-option" data-theme="system">
+                <input type="radio" name="theme" value="system" id="themeSystem">
+                <div class="theme-card">
+                  <span class="material-symbols-outlined">computer</span>
+                  <span class="theme-name" data-i18n="themeSystem">Системная</span>
+                </div>
+              </label>
+              <label class="theme-option" data-theme="light">
+                <input type="radio" name="theme" value="light" id="themeLight">
+                <div class="theme-card">
+                  <span class="material-symbols-outlined">light_mode</span>
+                  <span class="theme-name" data-i18n="themeLight">Светлая</span>
+                </div>
+              </label>
+              <label class="theme-option" data-theme="dark">
+                <input type="radio" name="theme" value="dark" id="themeDark">
+                <div class="theme-card">
+                  <span class="material-symbols-outlined">dark_mode</span>
+                  <span class="theme-name" data-i18n="themeDark">Тёмная</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item theme-selector">
+            <div class="setting-info">
+              <div class="setting-title">
+                <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle; margin-right: 4px;">language</span>
+                <span data-i18n="languageTitle">Язык интерфейса</span>
+              </div>
+              <div class="setting-description" data-i18n="languageDescription">Выберите язык расширения</div>
+            </div>
+            <div class="theme-options">
+              <label class="theme-option" data-lang="system">
+                <input type="radio" name="language" value="system" id="langSystem">
+                <div class="theme-card">
+                  <span class="material-symbols-outlined">computer</span>
+                  <span class="theme-name" data-i18n="languageSystem">Системный</span>
+                </div>
+              </label>
+              <label class="theme-option" data-lang="ru">
+                <input type="radio" name="language" value="ru" id="langRu">
+                <div class="theme-card">
+                  <span class="flag-icon">🇷🇺</span>
+                  <span class="theme-name" data-i18n="languageRussian">Русский</span>
+                </div>
+              </label>
+              <label class="theme-option" data-lang="en">
+                <input type="radio" name="language" value="en" id="langEn">
+                <div class="theme-card">
+                  <span class="flag-icon">🇺🇸</span>
+                  <span class="theme-name" data-i18n="languageEnglish">English</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <div class="setting-title" data-i18n="hideIpTitle">Скрывать IP адрес</div>
+              <div class="setting-description" data-i18n="hideIpDescription">Включить скрытие IP и местоположения под спойлером</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="hideIpToggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+          
+          <div class="credits-section">
+            <div class="credits-header">
+              <span class="material-symbols-outlined">favorite</span>
+              <span data-i18n="credits">Благодарности</span>
+            </div>
+            <div class="credits-content">
+              <p class="credits-text" data-i18n="creditsText">Создано с любовью для удобного управления прокси</p>
+              <div class="credits-links">
+                <a href="https://github.com/flaf1x/adbl_proxy" target="_blank" class="credits-link">
+                  <span class="material-symbols-outlined">code</span>
+                  <span data-i18n="githubRepo">GitHub расширения</span>
+                </a>
+                <a href="https://flaf1x.ru/" target="_blank" class="credits-link">
+                  <span class="material-symbols-outlined">public</span>
+                  <span data-i18n="creatorSite">Сайт флафикса :3</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="home">
+        <span class="material-symbols-outlined">home</span>
+        <span data-i18n="tabHome">Главная</span>
+      </button>
+      <button class="nav-tab" data-tab="whitelist">
+        <span class="material-symbols-outlined">list</span>
+        <span data-i18n="tabWhitelist">Вайтлист</span>
+      </button>
+      <button class="nav-tab" data-tab="configs">
+        <span class="material-symbols-outlined">dns</span>
+        <span data-i18n="tabConfigs">Прокси конфиги</span>
+      </button>
+      <button class="nav-tab" data-tab="settings">
+        <span class="material-symbols-outlined">settings</span>
+        <span data-i18n="tabSettings">Настройки</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="modal" id="configModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Новый конфиг</h2>
+        <button class="btn-close" id="closeModal">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="configName">Название</label>
+          <input type="text" id="configName" class="input-field" placeholder="Мой прокси">
+        </div>
+        <div class="form-group">
+          <label for="configHost">Хост</label>
+          <input type="text" id="configHost" class="input-field" placeholder="127.0.0.1">
+        </div>
+        <div class="form-group">
+          <label for="configPort">Порт</label>
+          <input type="number" id="configPort" class="input-field" placeholder="8080">
+        </div>
+        <div class="form-group">
+          <label for="configScheme">Протокол</label>
+          <select id="configScheme" class="input-field">
+            <option value="http">HTTP</option>
+            <option value="https">HTTPS</option>
+            <option value="socks4">SOCKS4</option>
+            <option value="socks5">SOCKS5</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelModal">Отмена</button>
+        <button class="btn-primary" id="saveConfig">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="whitelistModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Добавить в вайтлист</h2>
+        <button class="btn-close" id="closeWhitelistModal">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="whitelistDomain">Домен или паттерн</label>
+          <input type="text" id="whitelistDomain" class="input-field" placeholder="example.com">
+          <small class="hint">Примеры: example.com, *.example.com, 192.168.1.1</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelWhitelistModal">Отмена</button>
+        <button class="btn-primary" id="saveWhitelist">Добавить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="deleteConfirmModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Удалить конфигурацию?</h2>
+        <button class="btn-close" id="closeDeleteModal">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--md-sys-color-on-surface); opacity: 0.85;">Вы уверены, что хотите удалить конфигурацию "<span id="deleteConfigName"></span>"?</p>
+        <p style="font-size: 13px; color: var(--md-sys-color-on-surface-variant); margin-top: 8px;">Это действие нельзя отменить.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelDelete">Отмена</button>
+        <button class="btn-primary" id="confirmDelete" style="background: var(--md-sys-color-error);">Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="translations.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
