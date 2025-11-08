@@ -1,4 +1,4 @@
-# ABDL Proxy Manager
+# Proxy Manager (Advanced Bypass & Data Layer)
 
 [English](#english) | [Русский](#russian)
 
@@ -185,3 +185,4 @@ ABDL_Proxy/
 ### 📄 Лицензия
 
 Этот проект распространяется под лицензией MIT.
+
